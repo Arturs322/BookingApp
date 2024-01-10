@@ -34,9 +34,61 @@ namespace Booking.Web.Controllers
             {
                 _db.Villas.Add(villa);
                 _db.SaveChanges();
+                TempData["success"] = "Villa Created Successfully!";
                 return RedirectToAction(nameof(Index));
             }
             return View(villa);
+        }
+        public IActionResult Update(int villaId)
+        {
+            var villa = _db.Villas.FirstOrDefault(x => x.Id == villaId);
+            if(villa == null)
+            {
+                return RedirectToAction("Error", "Home");
+            }
+
+            return View(villa);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Update(Villa villa)
+        {
+            if (ModelState.IsValid)
+            {
+                _db.Villas.Update(villa);
+                _db.SaveChanges();
+                TempData["success"] = "Villa Updated Successfully!";
+                return RedirectToAction(nameof(Index));
+            }
+            return View();
+        }
+
+        public IActionResult Delete(int villaId)
+        {
+            var villa = _db.Villas.FirstOrDefault(x => x.Id == villaId);
+            if (villa == null)
+            {
+                return RedirectToAction("Error", "Home");
+            }
+
+            return View(villa);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Delete(Villa villa)
+        {
+            var villaToDelete = _db.Villas.FirstOrDefault(x => x.Id == villa.Id);
+
+            if (villaToDelete != null)
+            {
+                _db.Villas.Remove(villaToDelete);
+                _db.SaveChanges();
+                TempData["success"] = "Villa Deleted Successfully!";
+                return RedirectToAction(nameof(Index));
+            }
+            return View();
         }
     }
 }
