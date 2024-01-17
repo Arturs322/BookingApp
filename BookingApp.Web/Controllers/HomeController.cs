@@ -1,4 +1,6 @@
+using BookingApp.Application.Common.Interfaces;
 using BookingApp.Web.Models;
+using BookingApp.Web.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -6,16 +8,22 @@ namespace BookingApp.Web.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(IUnitOfWork unitOfWork)
         {
-            _logger = logger;
+            _unitOfWork = unitOfWork;
         }
-
         public IActionResult Index()
         {
-            return View();
+            var homeVM = new HomeVM
+            {
+                VillaList = _unitOfWork.Villa.GetAll(includeproperties: "VillaAmenity"),
+                Nights = 1,
+                CheckInDate = DateOnly.FromDateTime(DateTime.Now),
+            };
+
+            return View(homeVM);
         }
 
         public IActionResult Privacy()
