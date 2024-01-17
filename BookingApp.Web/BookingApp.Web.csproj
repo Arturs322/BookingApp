@@ -22,4 +22,28 @@
     <Folder Include="wwwroot\images\VillaImages\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="Views\Amenity\Index.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Views\Amenity\Update.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Amenity\Create.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Views\Amenity\Create.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Amenity\Delete.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Amenity\Delete.cshtml" />
+  </ItemGroup>
+
 </Project>
