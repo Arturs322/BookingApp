@@ -10,12 +10,14 @@ namespace BookingApp.Infrastructure.Repository
         public IVillaRepository Villa { get; set; }
         public IVillaNumberRepository VillaNumber { get; set; }
         public IAmenityRepository Amenity { get; set; }
+        public IReservationRepository Reservation { get; set; }
         public UnitOfWork(ApplicationDbContext db)
         {
             _db = db;
             Villa = new VillaRepository(_db);
             VillaNumber = new VillaNumberRepository(_db);
             Amenity = new AmenityRepository(_db);
+            Reservation = new ReservationRepository(_db);
         }
 
         public void Save()

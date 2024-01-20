@@ -28,7 +28,12 @@
                         <div class="col-4">
                                 @if (villa.IsAvailable)
                                 {
-                                    <a class="btn btn-success form-control btn-block">
+                                    <a class="btn btn-success form-control btn-block"
+                                    asp-controller="Reservation" 
+                                    asp-action="FinalizeReservation" 
+                                    asp-route-villaId="@villa.Id" 
+                                    asp-route-nights="@Model.Nights" 
+                                    asp-route-checkInDate="@Model.CheckInDate">
                                         Book
                                     </a>
                                 }
