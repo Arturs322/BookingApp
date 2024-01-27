@@ -17,7 +17,7 @@ namespace BookingApp.Infrastructure.Repository
 
         public void Update(Amenity entity)
         {
-            _db.Update(entity);
+            _db.Amenities.Update(entity);
         }
     }
 }

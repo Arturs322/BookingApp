@@ -21,18 +21,27 @@ namespace BookingApp.Infrastructure.Repository
             dbSet.Add(entity);
         }
 
-        public T Get(Expression<Func<T, bool>> filter, string? includeproperties = null)
+        public T Get(Expression<Func<T, bool>> filter, string? includeproperties = null, bool tracked = false)
         {
-            IQueryable<T> query = dbSet;
+            IQueryable<T> query;
+            if (tracked)
+            {
+                query = dbSet;
+            }
+            else
+            {
+                query = dbSet.AsNoTracking();
+            }
             if (filter != null)
             {
                 query = query.Where(filter);
             }
             if (!string.IsNullOrEmpty(includeproperties))
             {
-                foreach (var property in includeproperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                foreach (var includeProp in includeproperties
+                    .Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
                 {
-                    query = query.Include(includeproperties);
+                    query = query.Include(includeProp.Trim());
                 }
             }
             return query.FirstOrDefault();
