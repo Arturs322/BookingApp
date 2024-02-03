@@ -58,11 +58,12 @@ namespace BookingApp.Infrastructure.Repository
             {
                 foreach (var property in includeproperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
                 {
-                    query = query.Include(includeproperties);
+                    query = query.Include(property); // Use the individual property here
                 }
             }
             return query.ToList();
         }
+
 
         public void Remove(T T)
         {

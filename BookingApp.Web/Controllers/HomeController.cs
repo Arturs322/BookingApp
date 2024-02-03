@@ -1,4 +1,5 @@
 using BookingApp.Application.Common.Interfaces;
+using BookingApp.Application.Common.Utility;
 using BookingApp.Web.Models;
 using BookingApp.Web.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -29,12 +30,15 @@ namespace BookingApp.Web.Controllers
         public IActionResult GetVillasByDate(int nights, DateOnly checkInDate)
         {
             var villaList = _unitOfWork.Villa.GetAll(includeproperties: "VillaAmenity");
+            var villaNumberList = _unitOfWork.VillaNumber.GetAll().ToList();
+            var bookedVillas = _unitOfWork.Reservation.GetAll(x => x.Status == SD.StatusApproved || x.Status == SD.StatusCheckedIn).ToList();
+
             foreach (var villa in villaList)
             {
-                if (villa.Id % 2 == 0)
-                {
-                    villa.IsAvailable = false;
-                }
+                int roomAvailable = SD.VillaRoomsAvailable_Count
+                    (villa.Id, villaNumberList, checkInDate, nights, bookedVillas);
+
+                villa.IsAvailable = roomAvailable > 0 ? true : false;
             }
             var homeVM = new HomeVM
             {

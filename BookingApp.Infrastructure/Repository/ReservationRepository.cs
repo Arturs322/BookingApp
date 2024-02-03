@@ -21,7 +21,7 @@ namespace BookingApp.Infrastructure.Repository
             _db.Reservations.Update(entity);
         }
 
-        public void UpdateStatus(int reservationId, string reservationStatus)
+        public void UpdateStatus(int reservationId, string reservationStatus, int villaNumber = 0)
         {
             var reservation = _db.Reservations.FirstOrDefault(x => x.Id == reservationId);
             if(reservation != null)
@@ -29,6 +29,7 @@ namespace BookingApp.Infrastructure.Repository
                 reservation.Status = reservationStatus;
                 if (reservationStatus == SD.StatusPending)
                 {
+                    reservation.VillaNumber = villaNumber; 
                     reservation.ActualCheckInDate = DateTime.Now; 
                 }
                 if (reservationStatus == SD.StatusCompleted)
