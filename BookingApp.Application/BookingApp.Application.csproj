@@ -10,4 +10,8 @@
     <ProjectReference Include="..\BookingApp.Domain\BookingApp.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Common\DTO\" />
+  </ItemGroup>
+
 </Project>
