@@ -16,6 +16,11 @@ namespace BookingApp.Infrastructure.Repository
             dbSet = _db.Set<T>();
         }
 
+        public bool Any(Expression<Func<T, bool>> filter)
+        {
+            return dbSet.Any(filter);
+        }
+
         public void Add(T entity)
         {
             dbSet.Add(entity);

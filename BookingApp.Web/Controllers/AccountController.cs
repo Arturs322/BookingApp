@@ -12,18 +12,15 @@ namespace BookingApp.Web.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly IUnitOfWork _unitOfWork;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly RoleManager<IdentityRole> _roleManager;
 
         public AccountController(
-            IUnitOfWork unitOfWork, 
             SignInManager<ApplicationUser> signInManager,
             RoleManager<IdentityRole> roleManager,
             UserManager<ApplicationUser> userManager)
         {
-            _unitOfWork = unitOfWork;
             _signInManager = signInManager;
             _roleManager = roleManager;
             _userManager = userManager;

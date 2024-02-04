@@ -9,5 +9,7 @@ namespace BookingApp.Application.Common.Interfaces
         T Get(Expression<Func<T, bool>> filter, string? includeproperties = null, bool tracked = false);
         void Add(T villa);
         void Remove(T villa);
+        bool Any(Expression<Func<T, bool>> filter);
+
     }
 }

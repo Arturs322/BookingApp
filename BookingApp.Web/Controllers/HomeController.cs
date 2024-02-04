@@ -1,5 +1,6 @@
 using BookingApp.Application.Common.Interfaces;
 using BookingApp.Application.Common.Utility;
+using BookingApp.Application.Services.Interface;
 using BookingApp.Web.Models;
 using BookingApp.Web.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -9,17 +10,17 @@ namespace BookingApp.Web.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IVillaService _villaService;
 
-        public HomeController(IUnitOfWork unitOfWork)
+        public HomeController(IVillaService villaService)
         {
-            _unitOfWork = unitOfWork;
+            _villaService = villaService;
         }
         public IActionResult Index()
         {
             var homeVM = new HomeVM
             {
-                VillaList = _unitOfWork.Villa.GetAll(includeproperties: "VillaAmenity"),
+                VillaList = _villaService.GetAllVillas(),
                 Nights = 1,
                 CheckInDate = DateOnly.FromDateTime(DateTime.Now),
             };
@@ -29,20 +30,10 @@ namespace BookingApp.Web.Controllers
         [HttpPost]
         public IActionResult GetVillasByDate(int nights, DateOnly checkInDate)
         {
-            var villaList = _unitOfWork.Villa.GetAll(includeproperties: "VillaAmenity");
-            var villaNumberList = _unitOfWork.VillaNumber.GetAll().ToList();
-            var bookedVillas = _unitOfWork.Reservation.GetAll(x => x.Status == SD.StatusApproved || x.Status == SD.StatusCheckedIn).ToList();
-
-            foreach (var villa in villaList)
-            {
-                int roomAvailable = SD.VillaRoomsAvailable_Count
-                    (villa.Id, villaNumberList, checkInDate, nights, bookedVillas);
-
-                villa.IsAvailable = roomAvailable > 0 ? true : false;
-            }
+           
             var homeVM = new HomeVM
             {
-                VillaList = _unitOfWork.Villa.GetAll(includeproperties: "VillaAmenity"),
+                VillaList = _villaService.GetVillasAvailabilityByDates(nights, checkInDate),
                 Nights = 1,
                 CheckInDate = DateOnly.FromDateTime(DateTime.Now),
             };
